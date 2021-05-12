@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 import PropTypes from 'prop-types';
-import {Button,Tab,Tabs,Input,Paper,Box} from '@material-ui/core';
+import {Button,Tab,Tabs,Input,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
 
 const types = {
-    cipher: ["Caesar Cipher","Substitution Cipher","Keyword Cipher","Vigenere Cipher"],
+    cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher","Keyword Cipher"],
     encrypt: ["AES","RC4","DES"]
 };
 
@@ -48,13 +48,94 @@ function getCaesarCypher(str,key) {
     }
   }
   
+// vigenere cipher
+
+// var app = new function() {
+	
+	/* 
+	 * Handles the HTML input/output for Vigenère cipher encryption/decription.
+	 * This is the one and only entry point function called from the HTML code.
+	 */
+	function getVigenereCypher(textElem,keyStr,isDecrypt) {
+		// var keyStr = document.getElementById("key").value;
+		// var textElem = document.getElementById("text");
+        
+		var keyArray = filterKey(keyStr);
+		if (keyArray.length == 0) {
+			alert("Key has no letters");
+			return;
+		}
+		
+		if (isDecrypt) {
+			for (var i = 0; i < keyArray.length; i++)
+				keyArray[i] = (26 - keyArray[i]) % 26;
+		}
+		
+		return crypt(textElem, keyArray).toUpperCase();
+	};
+	
+	
+	
+	/* 
+	 * Returns an array of numbers, each in the range [0, 26), representing the given key.
+	 * The key is case-insensitive, and non-letters are ignored.
+	 * Examples:
+	 * - filterKey("AAA") = [0, 0, 0].
+	 * - filterKey("abc") = [0, 1, 2].
+	 * - filterKey("the $123# EHT") = [19, 7, 4, 4, 7, 19].
+	 */
+	function filterKey(key) {
+		var result = [];
+		for (var i = 0; i < key.length; i++) {
+			var c = key.charCodeAt(i);
+			if (isLetter(c))
+				result.push((c - 65) % 32);
+		}
+		return result;
+	}
+	
+	
+	// Tests whether the given character code is a Latin letter.
+	function isLetter(c) {
+		return isUppercase(c) || isLowercase(c);
+	}
+	
+	// Tests whether the given character code is an Latin uppercase letter.
+	function isUppercase(c) {
+		return 65 <= c && c <= 90;  // 65 is character code for 'A'. 90 is 'Z'.
+	}
+	
+	// Tests whether the given character code is a Latin lowercase letter.
+	function isLowercase(c) {
+		return 97 <= c && c <= 122;  // 97 is character code for 'a'. 122 is 'z'.
+	}
+	/* 
+	 * Returns the result the Vigenère encryption on the given text with the given key.
+	 */
+	function crypt(input, key) {
+		var output = "";
+		for (var i = 0, j = 0; i < input.length; i++) {
+			var c = input.charCodeAt(i);
+			if (isUppercase(c)) {
+				output += String.fromCharCode((c - 65 + key[j % key.length]) % 26 + 65);
+				j++;
+			} else if (isLowercase(c)) {
+				output += String.fromCharCode((c - 97 + key[j % key.length]) % 26 + 97);
+				j++;
+			} else {
+				output += input.charAt(i);
+			}
+		}
+		return output;
+	}
+	
+
   function getProcessedData({text,type}) {
     
-    if(text && type) {
         switch (type) {
             case 'Caesar Cipher':
                 console.log(type);
-                return getCaesarCypher(text,23);
+                return getCaesarCypher(text,3);
             case 'Substitution Cipher':
                 console.log(type);
                 // getKeywordCypher(text);
@@ -65,8 +146,7 @@ function getCaesarCypher(str,key) {
               break;
             case 'Vigenere Cipher':
                 console.log(type);
-                // getVigenereCypher(text); 
-              break;
+                return getVigenereCypher(text,"abc",false); 
             case 'AES':
                 console.log(type);
                 // getAES(text); 
@@ -83,13 +163,6 @@ function getCaesarCypher(str,key) {
               console.log(`Sorry, some error occured Please Try Again!.`);
           }
 }
-else {
-    alert("Please fill all details first.")
-    return null;
-}
-
-
-}
 
 export default function CryptoTabs({rawText}) {
   const [value, setValue] = React.useState(1);
@@ -100,11 +173,23 @@ export default function CryptoTabs({rawText}) {
 
   const [radioType, setradioType] = useState('');
   const [encodedMsg, setencodedMsg] = useState('');
+  const [open, setOpen] = useState(false);
 
   const getJSresult = () => {
-    setencodedMsg(getProcessedData({text: rawText,type: radioType}));
+    if(rawText && radioType) {
+        setencodedMsg(getProcessedData({text: rawText,type: radioType}));
+        setOpen(true);
+    }
+    else {
+        alert("Please fill all details first.")
+        return null;
+    }
+    
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
 <React.Fragment >
@@ -131,18 +216,24 @@ export default function CryptoTabs({rawText}) {
      color="primary"
      onClick={getJSresult}
       style={{margin: "5vw"}} >
-        Encrypt 
+        Encode 
     </Button>
-    <Input 
-        // className={classes.input}
-        placeholder="Encoded Message..."
-        autoFocus
-        required
-        multiline
-        value={encodedMsg}
-        readOnly
-        rows="4"
-    />
+
+    <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" fullWidth open={open}>
+        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+          Encoded Message..
+        </DialogTitle> 
+        <DialogContent dividers>
+          <Typography gutterBottom>
+            {encodedMsg}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary">
+            Try Again!
+          </Button>
+        </DialogActions>
+    </Dialog>
 </React.Fragment>
 );
 }
