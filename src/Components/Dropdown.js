@@ -206,7 +206,6 @@ function getDES(text,key,isDecode) {
                 return getRC4(text,"secret Passcode"); 
             case 'DES Encryption':
                 return getDES(text,"secret Passcode"); 
-            break;
             default:
               console.log(`Sorry, some error occured Please Try Again!.`);
           }
