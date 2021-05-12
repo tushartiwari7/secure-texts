@@ -12,9 +12,7 @@ export default function RadioButtonsGroup({methods,setradioType,children}) {
     setValue(event.target.value);
   };
 
-  useEffect(() => {
-    setradioType(value);
-  }, [value]);
+  useEffect(() => setradioType(value), [value,setradioType]);
 
   return (
     <FormControl component="fieldset">

@@ -13,7 +13,7 @@ const TextEditor = ({classes,textHandler}) => {
         return () => {
         clearTimeout(timehandler);
         };
-    }, [value]);
+    }, [value,textHandler]);
 
     return (
             <Input 

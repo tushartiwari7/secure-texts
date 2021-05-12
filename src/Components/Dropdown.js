@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import PropTypes from 'prop-types';
-import {Button,Tab,Tabs,Input,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
+import {Button,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
 
 const types = {
-    cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher","Keyword Cipher"],
-    encrypt: ["AES","RC4","DES"]
+    cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher"],
+    encrypt: ["AES Encryption","RC4 Encryption","DES Encryption"]
 };
 
 function TabPanel(props) {
@@ -57,11 +57,9 @@ function getCaesarCypher(str,key) {
 	 * This is the one and only entry point function called from the HTML code.
 	 */
 	function getVigenereCypher(textElem,keyStr,isDecrypt) {
-		// var keyStr = document.getElementById("key").value;
-		// var textElem = document.getElementById("text");
         
 		var keyArray = filterKey(keyStr);
-		if (keyArray.length == 0) {
+		if (keyArray.length === 0) {
 			alert("Key has no letters");
 			return;
 		}		
@@ -130,7 +128,7 @@ function getCaesarCypher(str,key) {
 	
 //SUBSTITUTION CIPHER
 var getSubstitutionCipher = {};
-getSubstitutionCipher.toQWERTY = function(text, decode) {
+getSubstitutionCipher.toQWERTY = function(text, isDecode) {
     // ABCDEF to QWERTY map
     var map = {
         a: 'q', b: 'w', c: 'e',
@@ -145,7 +143,7 @@ getSubstitutionCipher.toQWERTY = function(text, decode) {
     };
 
     // Flip the map
-    if(decode) {
+    if(isDecode) {
         map = (function() {
             var tmp = {};
             var k;
@@ -175,27 +173,20 @@ getSubstitutionCipher.toQWERTY = function(text, decode) {
     
         switch (type) {
             case 'Caesar Cipher':
-                console.log(type);
                 return getCaesarCypher(text,3);
             case 'Substitution Cipher':
-                console.log(type);
                 return getSubstitutionCipher.toQWERTY(text);
-            case 'Keyword Cipher':
-                console.log(type);
-                // getKeywordCypher(text);
-              break;
             case 'Vigenere Cipher':
-                console.log(type);
                 return getVigenereCypher(text,"abc",false); 
-            case 'AES':
+            case 'AES Encryption':
                 console.log(type);
                 // getAES(text); 
               break;  
-            case 'DES':
+            case 'DES Encryption':
                 console.log(type);
                 // getDES(text); 
               break;  
-            case 'RC4':
+            case 'RC4 Encryption':
                 console.log(type);
                 // getRC4(text); 
               break; 
