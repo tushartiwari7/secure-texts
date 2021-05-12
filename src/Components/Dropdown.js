@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import {Button,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
+import CryptoJS from 'crypto-js';
 
 const types = {
     cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher"],
@@ -169,6 +170,27 @@ getSubstitutionCipher.toQWERTY = function(text, isDecode) {
 
 };
 
+function getAES(text,key,isDecode) {
+    if(isDecode) {
+        return CryptoJS.AES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+    }
+    return CryptoJS.AES.encrypt(text, key).toString();
+}
+
+function getRC4(text,key,isDecode) {
+    if(isDecode) {
+        return CryptoJS.RC4.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+    }
+    return CryptoJS.RC4.encrypt(text, key).toString();
+}
+
+function getDES(text,key,isDecode) {
+    if(isDecode) {
+        return CryptoJS.DES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
+    }
+    return CryptoJS.DES.encrypt(text, key).toString();
+}
+
   function getProcessedData({text,type}) {
     
         switch (type) {
@@ -179,17 +201,11 @@ getSubstitutionCipher.toQWERTY = function(text, isDecode) {
             case 'Vigenere Cipher':
                 return getVigenereCypher(text,"abc",false); 
             case 'AES Encryption':
-                console.log(type);
-                // getAES(text); 
-              break;  
-            case 'DES Encryption':
-                console.log(type);
-                // getDES(text); 
-              break;  
+                return getAES(text,"secret Passcode"); 
             case 'RC4 Encryption':
-                console.log(type);
-                // getRC4(text); 
-              break; 
+                return getRC4(text,"secret Passcode"); 
+            case 'DES Encryption':
+                return getDES(text,"secret Passcode"); 
             default:
               console.log(`Sorry, some error occured Please Try Again!.`);
           }
