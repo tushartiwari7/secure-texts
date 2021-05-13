@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import PropTypes from 'prop-types';
-import {Button,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
+import {makeStyles,Button,Slider,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions,TextField} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
 import CryptoJS from 'crypto-js';
 
@@ -35,7 +35,21 @@ function TabPanel(props) {
     value: PropTypes.any.isRequired,
   };
 
-// substitution cipher
+  const useStyles = makeStyles({
+    root: {
+      width: 300,
+      margin: "auto"
+    },
+    keyContainer: {
+      marginBottom: "1rem",
+      top: "-.5rem"
+    },
+    tabPanel: {
+      paddingBottom: "-1rem"
+    }
+  });
+
+// caesar cipher
 function getCaesarCypher(str,key) {
     str = str.toUpperCase();
     return str.replace(/[A-Z]/g, convert);
@@ -191,15 +205,14 @@ function getDES(text,key,isDecode) {
     return CryptoJS.DES.encrypt(text, key).toString();
 }
 
-  function getProcessedData({text,type}) {
-    
+  function getProcessedData({text,type,key}) {
         switch (type) {
             case 'Caesar Cipher':
-                return getCaesarCypher(text,3);
+                return getCaesarCypher(text,key ? Number(key) : 3);
             case 'Substitution Cipher':
                 return getSubstitutionCipher.toQWERTY(text);
             case 'Vigenere Cipher':
-                return getVigenereCypher(text,"abc",false); 
+                return getVigenereCypher(text,key || "abc",false); 
             case 'AES Encryption':
                 return getAES(text,"secret Passcode"); 
             case 'RC4 Encryption':
@@ -212,26 +225,31 @@ function getDES(text,key,isDecode) {
 }
 
 export default function CryptoTabs({rawText}) {
-  const [value, setValue] = React.useState(1);
+  const classes = useStyles();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+  const [value, setValue] = React.useState(0);
   const [radioType, setradioType] = useState('');
   const [encodedMsg, setencodedMsg] = useState('');
   const [open, setOpen] = useState(false);
+  const [key, setkey] = useState("");
 
   const getJSresult = () => {
-    if(rawText && radioType) {
-        setencodedMsg(getProcessedData({text: rawText,type: radioType}));
+    if(rawText && radioType ) {
+        setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key}));
         setOpen(true);
     }
     else {
         alert("Please fill all details first.")
         return null;
-    }
-    
+    }    
+  };
+
+  const handleKey = (event, newValue) => {
+    radioType === 'CaesarCipher' ? setkey(newValue.toString()) : setkey(event.target.value);
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   const handleClose = () => {
@@ -252,20 +270,47 @@ export default function CryptoTabs({rawText}) {
         <Tab label="Cipher" />
         <Tab label="Encryption" />
       </Tabs>
-      <TabPanel value={value} index={0} >
+      <TabPanel className={classes.tabPanel} value={value} index={0} >
         <RadioTypes methods={types.cipher} setradioType={setradioType}></RadioTypes>
       </TabPanel>
-      <TabPanel value={value} index={1} >
+      <TabPanel className={classes.tabPanel} value={value} index={1} >
         <RadioTypes methods={types.encrypt} setradioType={setradioType} ></RadioTypes>
       </TabPanel>
+      {radioType === 'Caesar Cipher' ? (<div className={classes.root}>
+        <Typography id="Key-for-Caesar-Cipher" gutterBottom>
+          Key for Caesar Cipher
+        </Typography>
+        <Slider
+          defaultValue={3}
+          aria-labelledby="Key-for-Caesar-Cipher"
+          step={2}
+          marks
+          min={1}
+          max={26}
+          onChange={handleKey}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      ) : radioType === 'Vigenere Cipher'? (
+        <TextField 
+          id="key" 
+          label="Key for Vigenere Cipher" 
+          size="small" 
+          defaultValue=""
+          className={classes.keyContainer}
+          onChange={handleKey}
+          variant="outlined" 
+        /> 
+      ): null}
+    
+
     </Paper>
     <Button variant="contained"
      color="primary"
      onClick={getJSresult}
-      style={{margin: "5vw"}} >
+      style={{margin: "1rem"}} >
         Encode 
     </Button>
-
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" fullWidth open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           Encoded Message..
