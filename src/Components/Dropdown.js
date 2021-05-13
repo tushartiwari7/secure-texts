@@ -292,7 +292,7 @@ export default function CryptoTabs({rawText}) {
           valueLabelDisplay="auto"
         />
       </div>
-      ) : radioType && (radioType != 'Substitution Cipher') ? (
+      ) : radioType && (radioType !== 'Substitution Cipher') ? (
         <TextField 
           id="key" 
           label="Secret Key" 
