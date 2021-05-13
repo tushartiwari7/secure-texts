@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import Switch from '@material-ui/core/Switch';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
@@ -21,16 +21,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar() {
+export default function MenuAppBar({checked,handleTheme}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [menuEl, setMenuEl] = React.useState(null);
+  // const [menuEl, setMenuEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const handleMenu = (event) => {
-    setMenuEl(event.currentTarget);
-    console.log(menuEl);
-  };
+
+  // const handleMenu = (event) => {
+  //   setMenuEl(event.currentTarget);
+  //   console.log(menuEl);
+  // };
 
   const handleAccount = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,44 +46,54 @@ export default function MenuAppBar() {
       
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton}
-                onClick={handleMenu} color="inherit" aria-label="menu">
+          <IconButton 
+            edge="start" 
+            className={classes.menuButton}
+            // onClick={handleMenu} 
+            color="inherit" 
+            aria-haspopup="true"
+            onClick={handleAccount}
+            aria-label="dropdown"
+            >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Secure Texts
           </Typography>
-          
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleAccount}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Encoder</MenuItem>
-                <MenuItem onClick={handleClose}>Decoder</MenuItem>
-              </Menu>
-            </div>
-          
+            <Switch
+              checked={checked}
+              onChange={handleTheme}
+              name="Theme"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+            {/* <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleAccount}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton> */}
+            
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleClose}>Encoder</MenuItem>
+              <MenuItem onClick={handleClose}>Decoder</MenuItem>
+            </Menu>          
         </Toolbar>
       </AppBar>
     </div>
