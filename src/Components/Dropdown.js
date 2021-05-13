@@ -214,13 +214,13 @@ function getDES(text,key,isDecode) {
             case 'Vigenere Cipher':
                 return getVigenereCypher(text,key || "abc",false); 
             case 'AES Encryption':
-                return getAES(text,"secret Passcode"); 
+                return getAES(text,key || "secret Passcode"); 
             case 'RC4 Encryption':
-                return getRC4(text,"secret Passcode"); 
+                return getRC4(text,key || "secret Passcode"); 
             case 'DES Encryption':
-                return getDES(text,"secret Passcode"); 
+                return getDES(text,key || "secret Passcode"); 
             default:
-              console.log(`Sorry, some error occured Please Try Again!.`);
+              alert(`Sorry, some error occured Please Try Again!.`);
           }
 }
 
@@ -234,6 +234,7 @@ export default function CryptoTabs({rawText}) {
   const [key, setkey] = useState("");
 
   const getJSresult = () => {
+    console.log(radioType);
     if(rawText && radioType ) {
         setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key}));
         setOpen(true);
@@ -291,10 +292,10 @@ export default function CryptoTabs({rawText}) {
           valueLabelDisplay="auto"
         />
       </div>
-      ) : radioType === 'Vigenere Cipher'? (
+      ) : radioType && (radioType !== 'Substitution Cipher') ? (
         <TextField 
           id="key" 
-          label="Key for Vigenere Cipher" 
+          label="Secret Key" 
           size="small" 
           defaultValue=""
           className={classes.keyContainer}
