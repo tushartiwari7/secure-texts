@@ -10,7 +10,7 @@ function App() {
   function textHandler(event) {
     setRawText(event);
   }
-  // console.log(rawText);
+
   return (
     <div className="App">
       <AppBar />
@@ -20,8 +20,6 @@ function App() {
         <Container >
           <Dropdown rawText={rawText}/>
         </Container>
-        
-
     </div>
   );
 }

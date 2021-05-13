@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-//   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [menuEl, setMenuEl] = React.useState(null);
-//   const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl);
 
   const handleMenu = (event) => {
     setMenuEl(event.currentTarget);
@@ -33,12 +33,12 @@ export default function MenuAppBar() {
   };
 
   const handleAccount = (event) => {
-    // setAnchorEl(event.currentTarget);
+    setAnchorEl(event.currentTarget);
   };
 
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <div className={classes.root}>
@@ -63,7 +63,7 @@ export default function MenuAppBar() {
               >
                 <AccountCircle />
               </IconButton>
-              {/* <Menu
+              <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
@@ -78,9 +78,9 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu> */}
+                <MenuItem onClick={handleClose}>Encoder</MenuItem>
+                <MenuItem onClick={handleClose}>Decoder</MenuItem>
+              </Menu>
             </div>
           
         </Toolbar>
