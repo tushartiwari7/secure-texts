@@ -245,7 +245,7 @@ export default function CryptoTabs({rawText}) {
   };
 
   const handleKey = (event, newValue) => {
-    radioType === 'CaesarCipher' ? setkey(newValue.toString()) : setkey(event.target.value);
+    radioType === 'Caesar Cipher' ? setkey(newValue.toString()) : setkey(event.target.value);
   }
 
   const handleChange = (event, newValue) => {
