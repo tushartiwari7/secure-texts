@@ -259,7 +259,7 @@ export default function CryptoTabs({rawText}) {
 
   return (
 <React.Fragment >
-    <Paper square>
+    <Paper variant="elevation" elevation={2} square>
       <Tabs
         value={value}
         indicatorColor="primary"
@@ -268,7 +268,8 @@ export default function CryptoTabs({rawText}) {
         aria-label="cryptography types"
         centered
       >
-        <Tab label="Cipher" />
+        <Tab 
+        label="Cipher" />
         <Tab label="Encryption" />
       </Tabs>
       <TabPanel className={classes.tabPanel} value={value} index={0} >
@@ -297,6 +298,7 @@ export default function CryptoTabs({rawText}) {
           id="key" 
           label="Secret Key" 
           size="small" 
+          color="secondary"
           defaultValue=""
           className={classes.keyContainer}
           onChange={handleKey}
