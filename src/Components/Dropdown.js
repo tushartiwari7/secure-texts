@@ -46,17 +46,24 @@ function TabPanel(props) {
     },
     tabPanel: {
       paddingBottom: "-1rem"
-    }
+    },
+    
   });
 
 // caesar cipher
-function getCaesarCypher(str,key) {
+function getCaesarCypher(str,key,isDecode) {
     str = str.toUpperCase();
     return str.replace(/[A-Z]/g, convert);
   
     function convert(correspondance) {
       const charCode = correspondance.charCodeAt();
+      console.log(correspondance,charCode);
       //A = 65, Z = 90
+      if(isDecode) {
+        return String.fromCharCode(
+          ((charCode - key) >= 65) ? charCode - key : (charCode - key) % 65 + 25 );
+      }      
+
       return String.fromCharCode(
               ((charCode + key) <= 90) ? charCode + key : (charCode + key) % 90 + 64 );
       
@@ -64,21 +71,16 @@ function getCaesarCypher(str,key) {
   }
   
 // vigenere cipher
+//  Handles the input/output for Vigenère cipher encryption/decription.
 
-// var app = new function() {
-	
-	/* 
-	 * Handles the HTML input/output for Vigenère cipher encryption/decription.
-	 * This is the one and only entry point function called from the HTML code.
-	 */
-	function getVigenereCypher(textElem,keyStr,isDecrypt) {
+	function getVigenereCypher(textElem,keyStr,isDecode) {
         
 		var keyArray = filterKey(keyStr);
 		if (keyArray.length === 0) {
 			alert("Key has no letters");
 			return;
 		}		
-		if (isDecrypt) {
+		if (isDecode) {
 			for (var i = 0; i < keyArray.length; i++)
 				keyArray[i] = (26 - keyArray[i]) % 26;
 		}
@@ -205,26 +207,26 @@ function getDES(text,key,isDecode) {
     return CryptoJS.DES.encrypt(text, key).toString();
 }
 
-  function getProcessedData({text,type,key}) {
+  function getProcessedData({text,type,key,isDecode}) {
         switch (type) {
             case 'Caesar Cipher':
-                return getCaesarCypher(text,key ? Number(key) : 3);
+                return getCaesarCypher(text,key ? Number(key) : 3,isDecode);
             case 'Substitution Cipher':
-                return getSubstitutionCipher.toQWERTY(text);
+                return getSubstitutionCipher.toQWERTY(text,isDecode);
             case 'Vigenere Cipher':
-                return getVigenereCypher(text,key || "abc",false); 
+                return getVigenereCypher(text,key || "abc",isDecode); 
             case 'AES Encryption':
-                return getAES(text,key || "secret Passcode"); 
+                return getAES(text,key || "secret Passcode",isDecode); 
             case 'RC4 Encryption':
-                return getRC4(text,key || "secret Passcode"); 
+                return getRC4(text,key || "secret Passcode",isDecode); 
             case 'DES Encryption':
-                return getDES(text,key || "secret Passcode"); 
+                return getDES(text,key || "secret Passcode",isDecode); 
             default:
               alert(`Sorry, some error occured Please Try Again!.`);
           }
 }
 
-export default function CryptoTabs({rawText}) {
+export default function CryptoTabs({rawText,isDecode}) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState(0);
@@ -236,7 +238,7 @@ export default function CryptoTabs({rawText}) {
   const getJSresult = () => {
     console.log(radioType);
     if(rawText && radioType ) {
-        setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key}));
+        setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key,isDecode: isDecode}));
         setOpen(true);
     }
     else {
@@ -262,8 +264,8 @@ export default function CryptoTabs({rawText}) {
     <Paper variant="elevation" elevation={2} square>
       <Tabs
         value={value}
-        indicatorColor="primary"
-        textColor="primary"
+        indicatorColor={isDecode ? "secondary" : "primary" }
+        textColor={isDecode ? "secondary" : "primary" }
         onChange={handleChange}
         aria-label="cryptography types"
         centered
@@ -273,10 +275,10 @@ export default function CryptoTabs({rawText}) {
         <Tab label="Encryption" />
       </Tabs>
       <TabPanel className={classes.tabPanel} value={value} index={0} >
-        <RadioTypes methods={types.cipher} setradioType={setradioType}></RadioTypes>
+        <RadioTypes methods={types.cipher} isDecode={isDecode} setradioType={setradioType}></RadioTypes>
       </TabPanel>
       <TabPanel className={classes.tabPanel} value={value} index={1} >
-        <RadioTypes methods={types.encrypt} setradioType={setradioType} ></RadioTypes>
+        <RadioTypes methods={types.encrypt} isDecode={isDecode} setradioType={setradioType} ></RadioTypes>
       </TabPanel>
       {radioType === 'Caesar Cipher' ? (<div className={classes.root}>
         <Typography id="Key-for-Caesar-Cipher" gutterBottom>
@@ -289,6 +291,7 @@ export default function CryptoTabs({rawText}) {
           marks
           min={1}
           max={26}
+          color={isDecode ? "secondary" : "primary"}
           onChange={handleKey}
           valueLabelDisplay="auto"
         />
@@ -298,7 +301,7 @@ export default function CryptoTabs({rawText}) {
           id="key" 
           label="Secret Key" 
           size="small" 
-          color="secondary"
+          color={isDecode ? "secondary" : "primary"}
           defaultValue=""
           className={classes.keyContainer}
           onChange={handleKey}
@@ -309,14 +312,14 @@ export default function CryptoTabs({rawText}) {
 
     </Paper>
     <Button variant="contained"
-     color="primary"
+     color={isDecode ? "secondary" : "primary"}
      onClick={getJSresult}
       style={{margin: "1rem"}} >
-        Encode 
+       {isDecode ? "Decode" : "Encode"}
     </Button>
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" fullWidth open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Encoded Message..
+        {isDecode ? "Decoded " : "Encoded "} Message..
         </DialogTitle> 
         <DialogContent dividers>
           <Typography gutterBottom>
@@ -324,7 +327,7 @@ export default function CryptoTabs({rawText}) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={handleClose} color={isDecode ? "secondary" : "primary"} >
             Try Again!
           </Button>
         </DialogActions>
