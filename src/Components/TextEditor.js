@@ -38,7 +38,7 @@ const BootstrapInput = withStyles((theme) => ({
       borderRadius: 4,
       borderColor: theme.palette.divider,
       position: 'relative',
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.paper,
       border: '1px solid #ced4da',
       fontSize: 16,
       width: '75vw',

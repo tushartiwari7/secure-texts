@@ -21,23 +21,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar({checked,handleTheme}) {
+export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [menuEl, setMenuEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(false);
   const open = Boolean(anchorEl);
-
-
-  // const handleMenu = (event) => {
-  //   setMenuEl(event.currentTarget);
-  //   console.log(menuEl);
-  // };
 
   const handleAccount = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
     setAnchorEl(null);
   };
 
@@ -49,7 +42,6 @@ export default function MenuAppBar({checked,handleTheme}) {
           <IconButton 
             edge="start" 
             className={classes.menuButton}
-            // onClick={handleMenu} 
             color="inherit" 
             aria-haspopup="true"
             onClick={handleAccount}
@@ -58,24 +50,14 @@ export default function MenuAppBar({checked,handleTheme}) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Secure Texts
+            {isDecode ? "Decoder" : "Encoder"}
           </Typography>
             <Switch
               checked={checked}
               onChange={handleTheme}
               name="Theme"
               inputProps={{ 'aria-label': 'secondary checkbox' }}
-            />
-            {/* <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleAccount}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton> */}
-            
+            />            
             <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
@@ -91,8 +73,14 @@ export default function MenuAppBar({checked,handleTheme}) {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Encoder</MenuItem>
-              <MenuItem onClick={handleClose}>Decoder</MenuItem>
+              <MenuItem onClick={(e)=> {
+                handleDecodeEl(false);
+                handleClose(e);
+              }}>Encoder</MenuItem>
+              <MenuItem onClick={(e)=> {
+                handleDecodeEl(true);
+                handleClose(e);
+              }}>Decoder</MenuItem>
             </Menu>          
         </Toolbar>
       </AppBar>
