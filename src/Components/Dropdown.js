@@ -1,8 +1,10 @@
 import React,{useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles,Button,Slider,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions,TextField} from '@material-ui/core';
+import {makeStyles,Button,Slider,Tab,Tabs,Paper,Box,Dialog,DialogTitle,IconButton,DialogContent,Typography,DialogActions,TextField,Snackbar} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
 import CryptoJS from 'crypto-js';
+import FilterNone from '@material-ui/icons/FilterNone';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const types = {
     cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher"],
@@ -47,7 +49,11 @@ function TabPanel(props) {
     tabPanel: {
       paddingBottom: "-1rem"
     },
-    
+    copyButton: {
+      position: 'absolute',
+      right: "0.5rem",
+      top: "0.5rem",
+    }
   });
 
 // caesar cipher
@@ -57,7 +63,7 @@ function getCaesarCypher(str,key,isDecode) {
   
     function convert(correspondance) {
       const charCode = correspondance.charCodeAt();
-      console.log(correspondance,charCode);
+      // console.log(correspondance,charCode);
       //A = 65, Z = 90
       if(isDecode) {
         return String.fromCharCode(
@@ -234,9 +240,9 @@ export default function CryptoTabs({rawText,isDecode}) {
   const [encodedMsg, setencodedMsg] = useState('');
   const [open, setOpen] = useState(false);
   const [key, setkey] = useState("");
+  const [copied, setcopied] = useState(false);
 
   const getJSresult = () => {
-    console.log(radioType);
     if(rawText && radioType ) {
         setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key,isDecode: isDecode}));
         setOpen(true);
@@ -247,6 +253,7 @@ export default function CryptoTabs({rawText,isDecode}) {
     }    
   };
 
+  
   const handleKey = (event, newValue) => {
     radioType === 'Caesar Cipher' ? setkey(newValue.toString()) : setkey(event.target.value);
   }
@@ -257,6 +264,7 @@ export default function CryptoTabs({rawText,isDecode}) {
 
   const handleClose = () => {
     setOpen(false);
+    setcopied(false);
   };
 
   return (
@@ -280,7 +288,8 @@ export default function CryptoTabs({rawText,isDecode}) {
       <TabPanel className={classes.tabPanel} value={value} index={1} >
         <RadioTypes methods={types.encrypt} isDecode={isDecode} setradioType={setradioType} ></RadioTypes>
       </TabPanel>
-      {radioType === 'Caesar Cipher' ? (<div className={classes.root}>
+      {radioType === 'Caesar Cipher' ? (
+      <div className={classes.root}>
         <Typography id="Key-for-Caesar-Cipher" gutterBottom>
           Key for Caesar Cipher
         </Typography>
@@ -319,10 +328,21 @@ export default function CryptoTabs({rawText,isDecode}) {
     </Button>
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" fullWidth open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-        {isDecode ? "Decoded " : "Encoded "} Message..
+          <Typography variant="body1" >
+          <strong>{isDecode ? "Decoded " : "Encoded "} Message..</strong>
+          </Typography>
+          <IconButton aria-label="" 
+            className={classes.copyButton} 
+            onClick={() =>  {
+              navigator.clipboard.writeText(encodedMsg);
+              setcopied(true);              
+            }}
+          >
+            <FilterNone />
+          </IconButton>
         </DialogTitle> 
         <DialogContent dividers>
-          <Typography gutterBottom>
+          <Typography gutterBottom >
             {encodedMsg}
           </Typography>
         </DialogContent>
@@ -332,6 +352,17 @@ export default function CryptoTabs({rawText,isDecode}) {
           </Button>
         </DialogActions>
     </Dialog>
+    <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        open={copied}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Message Copied Successfully!"
+    >
+      <MuiAlert elevation={6} variant="filled" onClose={handleClose} severity="success" >
+      Message Copied Successfully!
+      </MuiAlert>
+    </Snackbar>
 </React.Fragment>
 );
 }
