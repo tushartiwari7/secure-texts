@@ -29,7 +29,6 @@ function App() {
 
   const handleDecodeEl = (event) => {
     setIsDecode(event);
-    console.log(event);
   };
 
   return (
