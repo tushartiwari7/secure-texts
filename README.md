@@ -1,8 +1,9 @@
 # secure-texts
 **Secure Texts**: A platform to secure your messages and texts your way by implementing advanced Cryptography Algorithms.
 # Tech-Stack
-![Github](https://badges.aleen42.com/src/javascript.svg)
-![Github](https://badges.aleen42.com/src/react.svg)
+![Github](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Github](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Github](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)
 # Installation
 1. Make Sure you have NodeJS Installed, if not download it from [here](https://nodejs.org)
 2. Clone [this](https://github.com/tushartiwari7/secure-texts) Repository using git CLI or Github Desktop.
