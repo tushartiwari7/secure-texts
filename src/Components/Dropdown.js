@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import PropTypes from 'prop-types';
-import {Button,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions} from '@material-ui/core';
+import {makeStyles,Button,Slider,Tab,Tabs,Paper,Box,Dialog,DialogTitle,DialogContent,Typography,DialogActions,TextField} from '@material-ui/core';
 import RadioTypes from './RadioTypes';
 import CryptoJS from 'crypto-js';
 
@@ -35,14 +35,35 @@ function TabPanel(props) {
     value: PropTypes.any.isRequired,
   };
 
-// substitution cipher
-function getCaesarCypher(str,key) {
+  const useStyles = makeStyles({
+    root: {
+      width: 300,
+      margin: "auto"
+    },
+    keyContainer: {
+      marginBottom: "1rem",
+      top: "-.5rem"
+    },
+    tabPanel: {
+      paddingBottom: "-1rem"
+    },
+    
+  });
+
+// caesar cipher
+function getCaesarCypher(str,key,isDecode) {
     str = str.toUpperCase();
     return str.replace(/[A-Z]/g, convert);
   
     function convert(correspondance) {
       const charCode = correspondance.charCodeAt();
+      console.log(correspondance,charCode);
       //A = 65, Z = 90
+      if(isDecode) {
+        return String.fromCharCode(
+          ((charCode - key) >= 65) ? charCode - key : (charCode - key) % 65 + 25 );
+      }      
+
       return String.fromCharCode(
               ((charCode + key) <= 90) ? charCode + key : (charCode + key) % 90 + 64 );
       
@@ -50,21 +71,16 @@ function getCaesarCypher(str,key) {
   }
   
 // vigenere cipher
+//  Handles the input/output for Vigenère cipher encryption/decription.
 
-// var app = new function() {
-	
-	/* 
-	 * Handles the HTML input/output for Vigenère cipher encryption/decription.
-	 * This is the one and only entry point function called from the HTML code.
-	 */
-	function getVigenereCypher(textElem,keyStr,isDecrypt) {
+	function getVigenereCypher(textElem,keyStr,isDecode) {
         
 		var keyArray = filterKey(keyStr);
 		if (keyArray.length === 0) {
 			alert("Key has no letters");
 			return;
 		}		
-		if (isDecrypt) {
+		if (isDecode) {
 			for (var i = 0; i < keyArray.length; i++)
 				keyArray[i] = (26 - keyArray[i]) % 26;
 		}
@@ -191,47 +207,52 @@ function getDES(text,key,isDecode) {
     return CryptoJS.DES.encrypt(text, key).toString();
 }
 
-  function getProcessedData({text,type}) {
-    
+  function getProcessedData({text,type,key,isDecode}) {
         switch (type) {
             case 'Caesar Cipher':
-                return getCaesarCypher(text,3);
+                return getCaesarCypher(text,key ? Number(key) : 3,isDecode);
             case 'Substitution Cipher':
-                return getSubstitutionCipher.toQWERTY(text);
+                return getSubstitutionCipher.toQWERTY(text,isDecode);
             case 'Vigenere Cipher':
-                return getVigenereCypher(text,"abc",false); 
+                return getVigenereCypher(text,key || "abc",isDecode); 
             case 'AES Encryption':
-                return getAES(text,"secret Passcode"); 
+                return getAES(text,key || "secret Passcode",isDecode); 
             case 'RC4 Encryption':
-                return getRC4(text,"secret Passcode"); 
+                return getRC4(text,key || "secret Passcode",isDecode); 
             case 'DES Encryption':
-                return getDES(text,"secret Passcode"); 
+                return getDES(text,key || "secret Passcode",isDecode); 
             default:
-              console.log(`Sorry, some error occured Please Try Again!.`);
+              alert(`Sorry, some error occured Please Try Again!.`);
           }
 }
 
-export default function CryptoTabs({rawText}) {
-  const [value, setValue] = React.useState(1);
+export default function CryptoTabs({rawText,isDecode}) {
+  const classes = useStyles();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+  const [value, setValue] = React.useState(0);
   const [radioType, setradioType] = useState('');
   const [encodedMsg, setencodedMsg] = useState('');
   const [open, setOpen] = useState(false);
+  const [key, setkey] = useState("");
 
   const getJSresult = () => {
-    if(rawText && radioType) {
-        setencodedMsg(getProcessedData({text: rawText,type: radioType}));
+    console.log(radioType);
+    if(rawText && radioType ) {
+        setencodedMsg(getProcessedData({text: rawText,type: radioType,key: key,isDecode: isDecode}));
         setOpen(true);
     }
     else {
         alert("Please fill all details first.")
         return null;
-    }
-    
+    }    
+  };
+
+  const handleKey = (event, newValue) => {
+    radioType === 'Caesar Cipher' ? setkey(newValue.toString()) : setkey(event.target.value);
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   const handleClose = () => {
@@ -240,35 +261,65 @@ export default function CryptoTabs({rawText}) {
 
   return (
 <React.Fragment >
-    <Paper square>
+    <Paper variant="elevation" elevation={2} square>
       <Tabs
         value={value}
-        indicatorColor="primary"
-        textColor="primary"
+        indicatorColor={isDecode ? "secondary" : "primary" }
+        textColor={isDecode ? "secondary" : "primary" }
         onChange={handleChange}
         aria-label="cryptography types"
         centered
       >
-        <Tab label="Cipher" />
+        <Tab 
+        label="Cipher" />
         <Tab label="Encryption" />
       </Tabs>
-      <TabPanel value={value} index={0} >
-        <RadioTypes methods={types.cipher} setradioType={setradioType}></RadioTypes>
+      <TabPanel className={classes.tabPanel} value={value} index={0} >
+        <RadioTypes methods={types.cipher} isDecode={isDecode} setradioType={setradioType}></RadioTypes>
       </TabPanel>
-      <TabPanel value={value} index={1} >
-        <RadioTypes methods={types.encrypt} setradioType={setradioType} ></RadioTypes>
+      <TabPanel className={classes.tabPanel} value={value} index={1} >
+        <RadioTypes methods={types.encrypt} isDecode={isDecode} setradioType={setradioType} ></RadioTypes>
       </TabPanel>
+      {radioType === 'Caesar Cipher' ? (<div className={classes.root}>
+        <Typography id="Key-for-Caesar-Cipher" gutterBottom>
+          Key for Caesar Cipher
+        </Typography>
+        <Slider
+          defaultValue={3}
+          aria-labelledby="Key-for-Caesar-Cipher"
+          step={2}
+          marks
+          min={1}
+          max={26}
+          color={isDecode ? "secondary" : "primary"}
+          onChange={handleKey}
+          valueLabelDisplay="auto"
+        />
+      </div>
+      ) : radioType && (radioType !== 'Substitution Cipher') ? (
+        <TextField 
+          id="key" 
+          label="Secret Key" 
+          size="small" 
+          color={isDecode ? "secondary" : "primary"}
+          defaultValue=""
+          className={classes.keyContainer}
+          onChange={handleKey}
+          variant="outlined" 
+        /> 
+      ): null}
+    
+
     </Paper>
     <Button variant="contained"
-     color="primary"
+     color={isDecode ? "secondary" : "primary"}
      onClick={getJSresult}
-      style={{margin: "5vw"}} >
-        Encode 
+      style={{margin: "1rem"}} >
+       {isDecode ? "Decode" : "Encode"}
     </Button>
-
     <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" fullWidth open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Encoded Message..
+        {isDecode ? "Decoded " : "Encoded "} Message..
         </DialogTitle> 
         <DialogContent dividers>
           <Typography gutterBottom>
@@ -276,7 +327,7 @@ export default function CryptoTabs({rawText}) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
+          <Button autoFocus onClick={handleClose} color={isDecode ? "secondary" : "primary"} >
             Try Again!
           </Button>
         </DialogActions>

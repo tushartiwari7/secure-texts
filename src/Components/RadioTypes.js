@@ -5,7 +5,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 
-export default function RadioButtonsGroup({methods,setradioType,children}) {
+export default function RadioButtonsGroup({methods,setradioType,children,isDecode}) {
   const [value, setValue] = React.useState('');
     
   const handleChange = (event) => {
@@ -20,7 +20,7 @@ export default function RadioButtonsGroup({methods,setradioType,children}) {
       <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
         {methods.map((type)=> {
             return (
-                <FormControlLabel value={type} key={type} control={<Radio />} label={type} />
+                <FormControlLabel value={type} key={type} control={<Radio color={isDecode ? "secondary" : "primary"} />} label={type} />
             );
         })}
       </RadioGroup>

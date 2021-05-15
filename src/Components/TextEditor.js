@@ -36,8 +36,9 @@ const BootstrapInput = withStyles((theme) => ({
     },
     input: {
       borderRadius: 4,
+      borderColor: theme.palette.divider,
       position: 'relative',
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.background.paper,
       border: '1px solid #ced4da',
       fontSize: 16,
       width: '75vw',
@@ -59,7 +60,7 @@ const BootstrapInput = withStyles((theme) => ({
       ].join(','),
       '&:focus': {
         boxShadow: `${fade(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-        borderColor: theme.palette.primary.main,
+        borderColor: theme.palette.divider,
       },
     },
   }))(TextEditor);
