@@ -67,7 +67,7 @@ function getCaesarCypher(str,key,isDecode) {
       //A = 65, Z = 90
       if(isDecode) {
         return String.fromCharCode(
-          ((charCode - key) >= 65) ? charCode - key : (charCode - key) % 65 + 25 );
+          ((charCode - key) >= 65) ? charCode - key : (charCode - key) % 65 + 26);
       }      
 
       return String.fromCharCode(
