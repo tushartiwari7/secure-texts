@@ -6,14 +6,8 @@ import CryptoJS from 'crypto-js';
 import FilterNone from '@material-ui/icons/FilterNone';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const types = {
-    cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher"],
-    encrypt: ["AES Encryption","RC4 Encryption","DES Encryption"]
-};
-
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-  
     return (
       <div
         role="tabpanel"
@@ -56,6 +50,11 @@ function TabPanel(props) {
     }
   });
 
+const types = {
+  cipher: ["Caesar Cipher","Vigenere Cipher","Substitution Cipher"],
+  encrypt: ["AES Encryption","RC4 Encryption","DES Encryption"]
+};
+
 // caesar cipher
 function getCaesarCypher(str,key,isDecode) {
     str = str.toUpperCase();
@@ -63,7 +62,6 @@ function getCaesarCypher(str,key,isDecode) {
   
     function convert(correspondance) {
       const charCode = correspondance.charCodeAt();
-      // console.log(correspondance,charCode);
       //A = 65, Z = 90
       if(isDecode) {
         return String.fromCharCode(
@@ -72,7 +70,7 @@ function getCaesarCypher(str,key,isDecode) {
 
       return String.fromCharCode(
               ((charCode + key) <= 90) ? charCode + key : (charCode + key) % 90 + 64 );
-      
+  
     }
   }
   
@@ -80,7 +78,7 @@ function getCaesarCypher(str,key,isDecode) {
 //  Handles the input/output for Vigenère cipher encryption/decription.
 
 	function getVigenereCypher(textElem,keyStr,isDecode) {
-        
+  
 		var keyArray = filterKey(keyStr);
 		if (keyArray.length === 0) {
 			alert("Key has no letters");
@@ -90,7 +88,7 @@ function getCaesarCypher(str,key,isDecode) {
 			for (var i = 0; i < keyArray.length; i++)
 				keyArray[i] = (26 - keyArray[i]) % 26;
 		}
-		
+	
 		return crypt(textElem, keyArray).toUpperCase();
 	};
 	
@@ -347,7 +345,7 @@ export default function CryptoTabs({rawText,isDecode}) {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose} color={isDecode ? "secondary" : "primary"} >
+          <Button autoFocus onClick={handleClose} color={isDecode ? "secondary" : "primary"}>
             Try Again!
           </Button>
         </DialogActions>
@@ -355,7 +353,7 @@ export default function CryptoTabs({rawText,isDecode}) {
     <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={copied}
-        autoHideDuration={6000}
+        autoHideDuration={2500}
         onClose={handleClose}
         message="Message Copied Successfully!"
     >
