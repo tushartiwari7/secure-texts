@@ -112,7 +112,6 @@ function getCaesarCypher(str,key,isDecode) {
 		return result;
 	}
 	
-	
 	// Tests whether the given character code is a Latin letter.
 	function isLetter(c) {
 		return isUppercase(c) || isLowercase(c);
@@ -315,8 +314,6 @@ export default function CryptoTabs({rawText,isDecode}) {
           variant="outlined" 
         /> 
       ): null}
-    
-
     </Paper>
     <Button variant="contained"
      color={isDecode ? "secondary" : "primary"}
