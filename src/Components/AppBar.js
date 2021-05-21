@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,8 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Switch from '@material-ui/core/Switch';
-import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Drawer from '@material-ui/core/Drawer';
+import DrawerList from './DrawerList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleAccount = (event) => {
@@ -73,16 +74,11 @@ export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={(e)=> {
-                handleDecodeEl(false);
-                handleClose(e);
-              }}>Encoder</MenuItem>
-              <MenuItem onClick={(e)=> {
-                handleDecodeEl(true);
-                handleClose(e);
-              }}>Decoder</MenuItem>
             </Menu>          
         </Toolbar>
+        <Drawer anchor="left" open={open} onClose={handleClose}>
+          <DrawerList handleClose={handleClose} handleDecodeEl={handleDecodeEl} />
+        </Drawer>
       </AppBar>
     </div>
   );
