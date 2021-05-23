@@ -14,29 +14,39 @@ const useStyles = makeStyles({
     fullList: {
       width: 'auto',
     },
+    link: {
+      color: "inherit",
+      textDecoration: "none"
+    }
   });
- const DrawerList = ({handleDecodeEl,handleClose}) => {
+ const DrawerList = ({handleDecodeEl,setPage,handleClose}) => {
     const classes = useStyles();
     let history = useHistory();
     return (
         <div
-        className={classes.list}    
+        className={classes.fullList}
         role="presentation"
         >
       <List>
-          <ListItem key="Secure Texts">
-            <ListItemIcon>
-                <GitHubIcon />
-            </ListItemIcon>
-            <ListItemText primary="Secure Texts" />
-          </ListItem>
+            <a className={classes.link} href="https://github.com/tushartiwari7/secure-texts" target="_blank"
+            rel="noreferrer"
+            >
+            <ListItem button key="Secure Texts">
+                <ListItemIcon>
+                    <GitHubIcon />
+                </ListItemIcon>
+                <ListItemText primary="Secure Texts" />
+            </ListItem>
+            </a>
       </List>
       <Divider />
       <List>
         {['Encoder', 'Decoder'].map((text, index) => (
           <ListItem button key={text} 
           onClick={(e)=>{
-              handleDecodeEl( text === 'Encoder' ? false : true)
+              handleDecodeEl( text === 'Encoder' ? false : true);
+              setPage(null);
+              history.push('/');
               handleClose(e);
           }}
           >
@@ -48,8 +58,10 @@ const useStyles = makeStyles({
       <Divider />
       <List>
           <ListItem button key="How Ciphers Work?"
-          onClick={()=>{
+          onClick={(e)=>{
+                setPage("Blog");
                 history.push('/blog');
+                handleClose(e);
             }}
           >
             <ListItemIcon>
@@ -61,8 +73,10 @@ const useStyles = makeStyles({
       <Divider />
       <List>
           <ListItem button key="About Us"
-          onClick={()=>{
+          onClick={(e)=>{
+              setPage("About Us");
               history.push('/aboutus');
+              handleClose(e);
           }}
           >
             <ListItemIcon>
