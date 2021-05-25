@@ -326,15 +326,15 @@ export default function CryptoTabs({rawText,isDecode}) {
           <Typography variant="body1" >
           <strong>{isDecode ? "Decoded " : "Encoded "} Message..</strong>
           </Typography>
-          <IconButton aria-label="" 
+          <IconButton aria-label=""
             className={classes.copyButton} 
             onClick={() =>  {
               navigator.clipboard.writeText(encodedMsg);
-              setcopied(true);              
+              setcopied(true);
             }}
           >
-            <FilterNone />
-          </IconButton>
+          <FilterNone />
+        </IconButton>
         </DialogTitle> 
         <DialogContent dividers>
           <Typography gutterBottom >

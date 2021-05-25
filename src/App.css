@@ -1,4 +1,6 @@
-
+* {
+  scroll-behavior: smooth;
+}
 .App {
   text-align: center;
   height: 100vh;

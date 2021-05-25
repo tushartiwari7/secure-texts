@@ -9,6 +9,7 @@ import Switch from '@material-ui/core/Switch';
 import Menu from '@material-ui/core/Menu';
 import Drawer from '@material-ui/core/Drawer';
 import DrawerList from './DrawerList';
+import logo from './logo.jpeg';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  logo: {
+    maxWidth: 40,
+    marginRight: '10px'
+  }
 }));
 
 export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}) {
@@ -51,6 +56,7 @@ export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}
             >
             <MenuIcon />
           </IconButton>
+          <img src={logo} alt="App logo" className={classes.logo} />
           <Typography variant="h6" className={classes.title}>
             {
               page ? page : (isDecode ? "Decoder" : "Encoder")

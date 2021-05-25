@@ -28,7 +28,7 @@ Infancy crypto-lingo, a cipher is simply a series of steps that scrambles (*encr
  - For example, with a shift of +3 (to right) word "B" will become
    "E".
 
-![](https://lh5.googleusercontent.com/XBptfDhtUjiX8KP16SJIxkhCjdWdPd6z2ndSGMUTRocfSTetn6hrmNHRKadOgxQzMqmqqAtH4l6bChMgTjHLZoph9xK9q5JPhjXEfa7pDNT30gk2u9bvXwZ8L5O_lfjni73fgxZy)
+![htps](https://lh5.googleusercontent.com/XBptfDhtUjiX8KP16SJIxkhCjdWdPd6z2ndSGMUTRocfSTetn6hrmNHRKadOgxQzMqmqqAtH4l6bChMgTjHLZoph9xK9q5JPhjXEfa7pDNT30gk2u9bvXwZ8L5O_lfjni73fgxZy)
 
  - First we translate all of our characters to numbers, 'a'=0, 'b'=1,
    'c'=2, ... , 'z'=25.
