@@ -22,7 +22,7 @@ const TextEditor = ({classes,textHandler}) => {
             autoFocus
             required
             multiline
-            rows="4"
+            rows="10"
             onChange={(event)=> {setValue(event.target.value)}}
             />
     );
@@ -42,7 +42,7 @@ const BootstrapInput = withStyles((theme) => ({
       border: '1px solid #ced4da',
       fontSize: 16,
       width: '75vw',
-      maxWidth: '600px',
+      maxWidth: '900px',
       padding: '10px 12px',
       transition: theme.transitions.create(['border-color', 'box-shadow']),
       // Use the system font instead of the default Roboto font.

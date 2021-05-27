@@ -13,7 +13,7 @@ const Home = ({isDecode}) => {
 
     return (
         <>
-        <Box m={4} p={4} >
+        <Box p={4} >
         <TextEditor textHandler={textHandler}/>
         </Box>
         <Container maxWidth="md">

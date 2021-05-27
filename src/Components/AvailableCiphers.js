@@ -33,7 +33,7 @@ function TabPanel(props) {
 
   const useStyles = makeStyles({
     root: {
-      width: 300,
+      width: 400,
       margin: "auto"
     },
     keyContainer: {
@@ -47,6 +47,10 @@ function TabPanel(props) {
       position: 'absolute',
       right: "0.5rem",
       top: "0.5rem",
+    },
+    caesar: {
+      width: 300,
+      margin: "auto"
     }
   });
 
@@ -266,7 +270,7 @@ export default function CryptoTabs({rawText,isDecode}) {
 
   return (
 <React.Fragment >
-    <Paper variant="elevation" elevation={2} square>
+    <Paper className={classes.root} variant="elevation" elevation={2} square>
       <Tabs
         value={value}
         indicatorColor={isDecode ? "secondary" : "primary" }
@@ -286,7 +290,7 @@ export default function CryptoTabs({rawText,isDecode}) {
         <RadioTypes methods={types.encrypt} isDecode={isDecode} setradioType={setradioType} ></RadioTypes>
       </TabPanel>
       {radioType === 'Caesar Cipher' ? (
-      <div className={classes.root}>
+      <div className={classes.caesar}>
         <Typography id="Key-for-Caesar-Cipher" gutterBottom>
           Key for Caesar Cipher
         </Typography>
