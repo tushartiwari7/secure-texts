@@ -52,7 +52,8 @@ export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    //   const [error, setError] = useState(null);
+        const error = null; // just to remove errors temporarily
     const signInWithEmailAndPasswordHandler = 
             (event,email, password) => {
                 event.preventDefault();

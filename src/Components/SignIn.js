@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import GoogleButton from 'react-google-button'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import Link from '@material-ui/core/Link';
+import {Link as MUILink} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -19,9 +19,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/tushartiwari7/secure-texts/blob/master/LICENSE.txt/">
+      <MUILink color="inherit" href="https://github.com/tushartiwari7/secure-texts/blob/master/LICENSE.txt/">
         Secure Texts
-      </Link>{' '}
+      </MUILink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -57,7 +57,8 @@ export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    //   const [error, setError] = useState(null);
+        const error = null; // just to remove errors temporarily
     const signInWithEmailAndPasswordHandler = 
             (event,email, password) => {
                 event.preventDefault();

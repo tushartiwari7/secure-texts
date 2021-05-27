@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 
 const PasswordReset = () => {
   const [email, setEmail] = useState("");
-  const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
-  const [error, setError] = useState(null);
+//   const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
+    const emailHasBeenSent = false; // temp
+//   const [error, setError] = useState(null);
+    const error = null; // just to remove errors temporarily
   const onChangeHandler = event => {
     const { name, value } = event.currentTarget;
     if (name === "userEmail") {
       setEmail(value);
     }
   };
-  const sendResetEmail = event => {
-    event.preventDefault();
-  };
+//   const sendResetEmail = event => {
+//     event.preventDefault();
+//   };
   return (
     <div className="mt-8">
       <h1 className="text-xl text-center font-bold mb-3">

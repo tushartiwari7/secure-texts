@@ -12,8 +12,8 @@ import Blog from './Blog';
 function App() {  
   const [dark, setdark] = useState(false);
   const [isDecode, setIsDecode] = useState(false);
-  const [user,setUSer] = useState(null);
-
+  // const [user,setUSer] = useState(null);
+  const user = null;
   const palletType = dark ? "dark" : "light";
   const darkTheme = createMuiTheme({
     palette: {
