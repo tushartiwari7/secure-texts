@@ -5,10 +5,14 @@ import {	BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './Components/AppBar';
+import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
+import ResetPassword from './Components/ResetPassword';
 import Blog from './Blog';
 function App() {  
   const [dark, setdark] = useState(false);
   const [isDecode, setIsDecode] = useState(false);
+  const [user,setUSer] = useState(null);
 
   const palletType = dark ? "dark" : "light";
   const darkTheme = createMuiTheme({
@@ -29,7 +33,10 @@ function App() {
       
       <ThemeProvider theme={darkTheme} >
         <CssBaseline />
+        
         <div className="App">
+        {user ? 
+          <>
           <AppBar checked={dark} handleTheme={handleTheme} isDecode={isDecode} handleDecodeEl={handleDecodeEl} />
           <Switch>
             <Route path="/" exact>
@@ -42,7 +49,21 @@ function App() {
               <Blog />
             </Route>
           </Switch>
-        </div>
+          </> : 
+          <Switch>
+          <Route path="/" exact>
+            <SignIn />
+          </Route>
+          <Route path="/signup" exact>
+            <SignUp />
+          </Route>
+          <Route path="/passwordreset" exact>
+            <ResetPassword />
+          </Route>
+        </Switch> 
+      }
+        
+        </div> 
         </ThemeProvider>
     </Router>
   );

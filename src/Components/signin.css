@@ -1,0 +1,21 @@
+.align-center {
+    text-align: center;
+    margin: 30px 0 0 0;
+    width: 100%;
+}
+.google {
+    width: 100%;
+    margin-top: 20px;
+}
+.word-with-line {
+    border-bottom: 1px solid #e5e7e8;
+    line-height: .1em;
+    width: 40%;
+    display: inline-block;
+}
+.word-with-line span {
+    background: #fafafa;
+    padding: 0 10px;
+    color: #9ca3a8;
+    font-size: 16px;
+}
