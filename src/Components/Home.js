@@ -1,7 +1,7 @@
 import { Box,Container } from '@material-ui/core';
 import React,{ useState } from "react";
-import TextEditor from './Components/TextEditor';
-import AvailableCiphers from './Components/AvailableCiphers';
+import TextEditor from './TextEditor';
+import AvailableCiphers from './AvailableCiphers';
 
 const Home = ({isDecode}) => {
     
