@@ -47,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   link: {
-      textDecoration: 'none',
+      textDecoration: 'none'
+  },
+  alignToLeft: {
       textAlign: 'left'
   }
 }));
@@ -134,12 +136,12 @@ export default function SignIn() {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
+            <Grid item xs className={classes.alignToLeft}>
               <Link className={classes.link} to="passwordreset" >
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
+            <Grid item >
               <Link className={classes.link} to="signup" >
                 Don't have an account? Sign Up
               </Link>

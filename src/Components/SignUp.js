@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import './signin.css'
+import './signin.css';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import GoogleButton from 'react-google-button'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
+import {Link as MUILink} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -18,9 +18,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://github.com/tushartiwari7/secure-texts/blob/master/LICENSE.txt/">
+      <MUILink color="inherit" href="https://github.com/tushartiwari7/secure-texts/blob/master/LICENSE.txt/">
         Secure Texts
-      </Link>{' '}
+      </MUILink>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+      textDecoration: 'none'
+  },
+  alignToLeft: {
+      textAlign: 'left'
+  }
 }));
 
 export default function SignIn() {
@@ -52,17 +58,18 @@ export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    //   const [error, setError] = useState(null);
-        const error = null; // just to remove errors temporarily
-    const signInWithEmailAndPasswordHandler = 
-            (event,email, password) => {
+    const [userName,setuserName] = useState('');
+    // const [error, setError] = useState(null);
+    const error = null; // just to remove errors temporarily
+    const signInWithEmailAndPasswordHandler = (event,email, password, userName) => {
                 event.preventDefault();
+                console.log({email,password,userName});
     };
 
     const onChangeHandler = (event) => {
         const {name, value} = event.currentTarget;
 
-        if(name === 'userEmail') {
+        if(name === 'email') {
             setEmail(value);
         }
         else if(name === 'userPassword'){
@@ -81,17 +88,18 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <GoogleButton
-            className='google'
-            style={{width: '100%'}}
-            onClick={() => { console.log('Google button clicked') }}
-        />
-        <div className="align-center">
-            <div className="word-with-line">
-                <span >or</span>
-            </div>
-        </div>
         <form className={classes.form} noValidate>
+        <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label="Display Name"
+            required
+            value={userName}
+            onChange={(event) => {
+              setuserName(event.currentTarget.value)
+            }}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -99,11 +107,11 @@ export default function SignIn() {
             fullWidth
             id="email"
             label="Email Address"
-            name="userEmail"
+            name="email"
+            type="email"
             value={email}
             onChange={(event) => onChangeHandler(event)}
             autoComplete="email"
-            autoFocus
           />
           <TextField
             variant="outlined"
@@ -124,19 +132,19 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick = {(event) => {signInWithEmailAndPasswordHandler(event, email, password)}}
+            onClick = {(event) => {signInWithEmailAndPasswordHandler(event, email, password, userName)}}
           >
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
+            <Grid item xs className={classes.alignToLeft}>
+            <Link className={classes.link} to="/passwordreset" >
+                {''}
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
+              <Link className={classes.link} to="/" >
+                Already have an account? Sign In
               </Link>
             </Grid>
           </Grid>
