@@ -14,7 +14,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import {Link} from 'react-router-dom';
-import {signInWithGoogle} from '../Authentication/firebase'
+import {signInWithGoogle} from '../Authentication/firebase';
+
+import {auth} from '../Authentication/firebase';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -59,13 +62,15 @@ export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    //   const [error, setError] = useState(null);
-        const error = null; // just to remove errors temporarily
-    const signInWithEmailAndPasswordHandler = 
-            (event,email, password) => {
-                event.preventDefault();
+    const [error, setError] = useState(null);
+ 
+    const signInWithEmailAndPasswordHandler = (event, email, password) => {
+      event.preventDefault();
+      auth.signInWithEmailAndPassword(email, password).catch(error => {
+        setError("Error signing in with password and email!");
+        console.error("Error signing in with password and email", error);
+      });
     };
-
     const onChangeHandler = (event) => {
         const {name, value} = event.currentTarget;
 
@@ -92,14 +97,12 @@ export default function SignIn() {
             className='google'
             style={{width: '100%'}}
             onClick={() => {
-              console.log('Google button clicked');
               signInWithGoogle()
-
             }}
         />
-        <div className="align-center">
-            <div className="word-with-line">
-                <span >or</span>
+        <div>
+            <div>
+                <span>or</span>
             </div>
         </div>
         <form className={classes.form} noValidate>

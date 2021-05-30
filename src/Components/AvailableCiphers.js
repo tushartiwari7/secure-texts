@@ -7,14 +7,16 @@ import FilterNone from '@material-ui/icons/FilterNone';
 import MuiAlert from '@material-ui/lab/Alert';
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index,
+      //  ...other 
+      } = props;
     return (
       <div
         role="tabpanel"
         hidden={value !== index}
         id={`scrollable-auto-tabpanel-${index}`}
         aria-labelledby={`scrollable-auto-tab-${index}`}
-        {...other}
+        // {...other}
       >
         {value === index && (
           <Box p={3}>

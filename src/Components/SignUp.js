@@ -14,6 +14,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 
+import {auth,generateUserDocument} from '../Authentication/firebase';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -58,14 +60,24 @@ export default function SignIn() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [userName,setuserName] = useState('');
-    // const [error, setError] = useState(null);
-    const error = null; // just to remove errors temporarily
-    const signInWithEmailAndPasswordHandler = (event,email, password, userName) => {
-                event.preventDefault();
-                console.log({email,password,userName});
+    const [displayName,setdisplayName] = useState('');
+    const [error, setError] = useState(null);
+    
+    const createUserWithEmailAndPasswordHandler = async (event, email, password, displayName) => {
+      event.preventDefault();
+      try{
+        const {user} = await auth.createUserWithEmailAndPassword(email, password);
+        generateUserDocument(user, {displayName});
+      }
+      catch(error){
+        setError('Error Signing up with email and password');
+      }
+  
+      setEmail("");
+      setPassword("");
+      setdisplayName("");
     };
-
+    
     const onChangeHandler = (event) => {
         const {name, value} = event.currentTarget;
 
@@ -95,9 +107,9 @@ export default function SignIn() {
             fullWidth
             label="Display Name"
             required
-            value={userName}
+            value={displayName}
             onChange={(event) => {
-              setuserName(event.currentTarget.value)
+              setdisplayName(event.currentTarget.value)
             }}
           />
           <TextField
@@ -132,7 +144,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
-            onClick = {(event) => {signInWithEmailAndPasswordHandler(event, email, password, userName)}}
+            onClick = {(event) => {createUserWithEmailAndPasswordHandler(event, email, password, displayName)}}
           >
             Sign In
           </Button>

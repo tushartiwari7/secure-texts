@@ -5,6 +5,7 @@ import {useHistory} from "react-router-dom";
 import {makeStyles} from '@material-ui/core';
 import '@fontsource/roboto';
 import {Button,Grid,Paper,Avatar,Typography} from '@material-ui/core';
+
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfilePage = () => {
   
-    const classes = useStyles();
+  const classes = useStyles();
   let history = useHistory();
   const user = useContext(UserContext);
   const {photoURL, displayName, email} = user;
