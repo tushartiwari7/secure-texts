@@ -14,12 +14,8 @@ import {UserContext} from '../Providers/UserProvider';
 export const Application = () => {
       
   const user = useContext(UserContext);
-//   const {photoURL, displayName, email} = user;
-  console.log(user);
   const [dark, setdark] = useState(false);
   const [isDecode, setIsDecode] = useState(false);
-  // const [user,setUSer] = useState(null);
-//   const user = null;
   const palletType = dark ? "dark" : "light";
   const darkTheme = createMuiTheme({
     palette: {
