@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React,{ useState,useContext } from "react";
 import {BrowserRouter as Router, Route,Switch } from 'react-router-dom'; 
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,14 +8,18 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import ResetPassword from './ResetPassword';
 import Blog from '../Blog';
-
+import Profile from './Profile';
+import {UserContext} from '../Providers/UserProvider';
 
 export const Application = () => {
       
+  const user = useContext(UserContext);
+//   const {photoURL, displayName, email} = user;
+  console.log(user);
   const [dark, setdark] = useState(false);
   const [isDecode, setIsDecode] = useState(false);
   // const [user,setUSer] = useState(null);
-  const user = null;
+//   const user = null;
   const palletType = dark ? "dark" : "light";
   const darkTheme = createMuiTheme({
     palette: {
@@ -30,10 +34,8 @@ export const Application = () => {
     setIsDecode(event);
   };
 
-
   return (
     <Router>
-      
       <ThemeProvider theme={darkTheme} >
         <CssBaseline />
         <div className="App">
@@ -48,7 +50,10 @@ export const Application = () => {
               <h2>about page</h2>
             </Route>
             <Route path="/blog" exact>
-              <Blog />
+                <Blog />
+            </Route>
+            <Route path="/profile" exact>
+                <Profile />
             </Route>
           </Switch>
           </> : 

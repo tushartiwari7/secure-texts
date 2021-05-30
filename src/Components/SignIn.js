@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 import {Link} from 'react-router-dom';
-
+import {signInWithGoogle} from '../Authentication/firebase'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -91,7 +91,11 @@ export default function SignIn() {
         <GoogleButton
             className='google'
             style={{width: '100%'}}
-            onClick={() => { console.log('Google button clicked') }}
+            onClick={() => {
+              console.log('Google button clicked');
+              signInWithGoogle()
+
+            }}
         />
         <div className="align-center">
             <div className="word-with-line">
