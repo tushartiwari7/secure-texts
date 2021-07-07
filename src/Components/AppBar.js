@@ -27,10 +27,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}) {
+export default function MenuAppBar({checked,handleTheme,handleDecodeEl,page,setPage}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
-  const [page,setPage] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleAccount = (event) => {
@@ -58,9 +57,7 @@ export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl}
           </IconButton>
           <img src={logo} alt="App logo" className={classes.logo} />
           <Typography variant="h6" className={classes.title}>
-            {
-              page ? page : (isDecode ? "Decoder" : "Encoder")
-            }
+            {page}
           </Typography>
             <Switch
               checked={checked}

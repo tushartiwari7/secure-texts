@@ -3,7 +3,7 @@ import React,{ useState } from "react";
 import TextEditor from './Components/TextEditor';
 import AvailableCiphers from './Components/AvailableCiphers';
 
-const Home = ({isDecode}) => {
+const Encrypt = ({isDecode}) => {
     
     const [rawText,setRawText] = useState('');
 
@@ -24,4 +24,4 @@ const Home = ({isDecode}) => {
 
 }
 
-export default Home;
+export default Encrypt;
