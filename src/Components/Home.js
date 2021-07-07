@@ -1,3 +1,4 @@
+
 import Head from 'next/head';
 import {useHistory} from "react-router-dom";
 export default function Home({handleDecodeEl,setPage}) {
@@ -23,7 +24,7 @@ export default function Home({handleDecodeEl,setPage}) {
                         history.push('/encrypt');
                     }
                     } className="card">
-                        <h3>Encode &rarr;</h3>
+                        <h3>Encrypt &rarr;</h3>
                         <p>Enter the Plain Text and key so that you'll get a cipher text.</p>
                     </button>
                     <button onClick={()=>{
@@ -31,11 +32,11 @@ export default function Home({handleDecodeEl,setPage}) {
                         setPage('Decoder');
                         history.push('/encrypt');
                     }} className="card">
-                        <h3>Decode &rarr;</h3>
+                        <h3>Decrypt &rarr;</h3>
                         <p>Enter the Cipher Text obtained from Encoder and same key so that you'll get the plain Text Back. </p>
                     </button>
                 </div>
-
+                
                 <h2 className="subtitle">
                     Learn <a href="#blog" className="a">Cryptography</a>
                 </h2>
@@ -49,6 +50,17 @@ export default function Home({handleDecodeEl,setPage}) {
                         <h3>How Ciphers Work? &rarr;</h3>
                         <p>Learn about Ciphers, Encryptions and many more algorithms which provide secure transactions.</p>
                     </button>
+                </div>
+
+                <h2 className="title" style={{marginTop: "35px",fontSize: "2rem"}}>
+                    Collaborate With Us!
+                </h2>
+
+                <div className="grid">
+                    <a href="https://github.com/tushartiwari7/secure-texts/issues"  className="card">
+                        <h3>Any Issues or Feedback, Contact Us! &rarr;</h3>
+                        <p>Learnt the basics of Cryptography, Its time to Build now. Get in Touch</p>
+                    </a>
                 </div>
             </main>
 
@@ -135,14 +147,15 @@ export default function Home({handleDecodeEl,setPage}) {
                 margin-top: 3rem;
                 }
                 .grid2 {
-                    display: flex;
-                    align-items: left;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                    max-width: 800px;
-                    margin-top: 3rem;
-                    transform: translateX(-14vw);
-                    }
+                display: flex;
+                align-items: left;
+                justify-content: center;
+                flex-wrap: wrap;
+                max-width: 800px;
+                margin-top: 3rem;
+                transform: translateX(-14vw);
+                }
+
                 .card {
                 margin: 1rem;
                 flex-basis: 45%;

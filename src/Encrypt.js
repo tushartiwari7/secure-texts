@@ -1,9 +1,9 @@
-import { Box,Container } from '@material-ui/core';
+import { Box,Button,Container, Divider } from '@material-ui/core';
 import React,{ useState } from "react";
 import TextEditor from './Components/TextEditor';
 import AvailableCiphers from './Components/AvailableCiphers';
 
-const Encrypt = ({isDecode}) => {
+const Encrypt = ({isDecode,handleDecodeEl}) => {
     
     const [rawText,setRawText] = useState('');
 
@@ -18,6 +18,14 @@ const Encrypt = ({isDecode}) => {
         </Box>
         <Container maxWidth="md">
             <AvailableCiphers rawText={rawText} isDecode={isDecode} />
+            <Divider />
+            <Button fullWidth style={{marginTop: '4em',height: '4rem'}} variant="contained"
+            color={isDecode ? "secondary" : "primary"} 
+            onClick={()=> handleDecodeEl(!isDecode)}
+            >
+                Move to 
+                {isDecode ? ' Encoder' : ' Decoder'}
+            </Button>
         </Container>
         </>
     );

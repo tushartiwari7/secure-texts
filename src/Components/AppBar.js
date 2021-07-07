@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function MenuAppBar({checked,handleTheme,handleDecodeEl,page,setPage}) {
+export default function MenuAppBar({checked,handleTheme,isDecode,handleDecodeEl,page,setPage}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(false);
   const open = Boolean(anchorEl);
@@ -43,12 +43,12 @@ export default function MenuAppBar({checked,handleTheme,handleDecodeEl,page,setP
   return (
     <div className={classes.root}>
       
-      <AppBar position="static">
+      <AppBar color={isDecode ? 'secondary' : 'primary'} position="static">
         <Toolbar>
           <IconButton 
             edge="start" 
             className={classes.menuButton}
-            color="inherit" 
+            color = 'inherit'
             aria-haspopup="true"
             onClick={handleAccount}
             aria-label="dropdown"
@@ -62,6 +62,7 @@ export default function MenuAppBar({checked,handleTheme,handleDecodeEl,page,setP
             <Switch
               checked={checked}
               onChange={handleTheme}
+              color={isDecode ? 'primary' : 'secondary'}
               name="Theme"
               inputProps={{ 'aria-label': 'secondary checkbox' }}
             />            

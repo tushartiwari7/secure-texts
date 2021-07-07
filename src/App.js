@@ -10,7 +10,7 @@ import Blog from './Blog';
 import Home from './Components/Home';
 
 function App() {  
-  const [dark, setdark] = useState(false);
+  const [dark, setdark] = useState(true);
   const [isDecode, setIsDecode] = useState(false);
   const [page,setPage] = useState('Home');
   
@@ -40,7 +40,7 @@ function App() {
           <AppBar checked={dark} handleTheme={handleTheme} isDecode={isDecode} handleDecodeEl={handleDecodeEl} page={page} setPage={setPage}/>
           <Switch>
             <Route path="/encrypt" exact>
-              <Encrypt isDecode={isDecode}/>
+              <Encrypt isDecode={isDecode} handleDecodeEl={handleDecodeEl} />
             </Route>
             <Route path="/" exact>
               <Home handleDecodeEl={handleDecodeEl} setPage={setPage}/>
@@ -49,6 +49,7 @@ function App() {
               <Blog />
             </Route>
           </Switch>
+          
         </div>
         </ThemeProvider>
     </Router>
