@@ -51,12 +51,10 @@ export default function Home({handleDecodeEl,setPage}) {
                         <p>Learn about Ciphers, Encryptions and many more algorithms which provide secure transactions.</p>
                     </button>
                 </div>
-
-                <h2 className="title" style={{marginTop: "35px",fontSize: "2rem"}}>
+                <h2 className="subtitle" style={{marginTop: "35px",fontSize: "2rem"}}>
                     Collaborate With Us!
                 </h2>
-
-                <div className="grid">
+                <div className="grid2">
                     <a href="https://github.com/tushartiwari7/secure-texts/issues"  className="card">
                         <h3>Any Issues or Feedback, Contact Us! &rarr;</h3>
                         <p>Learnt the basics of Cryptography, Its time to Build now. Get in Touch</p>
@@ -181,9 +179,6 @@ export default function Home({handleDecodeEl,setPage}) {
                 margin: 0;
                 font-size: 1.25rem;
                 line-height: 1.5;
-                }
-                .logo {
-                height: 1em;
                 }
                 @media (max-width: 600px) {
                 .grid {

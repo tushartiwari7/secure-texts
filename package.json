@@ -43,10 +43,10 @@
       "last 1 safari version"
     ]
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "description": "This project was build for 6th semester college submission in which we implemented many Cryptographic Algorithms.",
   "main": "index.js",
   "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": ["cryptography","security","react","website"],
+  "author": "Tushar Tiwari",
+  "license": "MIT"
 }

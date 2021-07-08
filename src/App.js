@@ -8,6 +8,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from './Components/AppBar';
 import Blog from './Blog';
 import Home from './Components/Home';
+import logo from './logo.svg';    
 
 function App() {  
   const [dark, setdark] = useState(true);
@@ -40,7 +41,9 @@ function App() {
           <AppBar checked={dark} handleTheme={handleTheme} isDecode={isDecode} handleDecodeEl={handleDecodeEl} page={page} setPage={setPage}/>
           <Switch>
             <Route path="/encrypt" exact>
-              <Encrypt isDecode={isDecode} handleDecodeEl={handleDecodeEl} />
+            <div className="encrypt">
+              <Encrypt isDecode={isDecode} handleDecodeEl={handleDecodeEl} setPage={setPage} />
+            </div>
             </Route>
             <Route path="/" exact>
               <Home handleDecodeEl={handleDecodeEl} setPage={setPage}/>
@@ -49,7 +52,45 @@ function App() {
               <Blog />
             </Route>
           </Switch>
-          
+
+          <footer>
+            <a
+              href="happynewyear.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Powered by {' '}          
+              <img src={logo} alt="logo" className="logo" />
+            </a>
+          </footer>
+
+          <style jsx>{`
+
+            footer {
+            width: 100%;
+            height: 80px;
+            border-top: 1px solid #eaeaea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+            footer img {
+            margin-left: 0.5rem;
+            }
+            footer a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+            .logo {
+            height: 1em;
+            }
+            .encrypt {
+              min-height: 80vh;
+            }
+          `}
+          </style>
+
         </div>
         </ThemeProvider>
     </Router>

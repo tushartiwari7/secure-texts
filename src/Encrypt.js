@@ -3,7 +3,7 @@ import React,{ useState } from "react";
 import TextEditor from './Components/TextEditor';
 import AvailableCiphers from './Components/AvailableCiphers';
 
-const Encrypt = ({isDecode,handleDecodeEl}) => {
+const Encrypt = ({isDecode,handleDecodeEl,setPage}) => {
     
     const [rawText,setRawText] = useState('');
 
@@ -21,7 +21,9 @@ const Encrypt = ({isDecode,handleDecodeEl}) => {
             <Divider />
             <Button fullWidth style={{marginTop: '4em',height: '4rem'}} variant="contained"
             color={isDecode ? "secondary" : "primary"} 
-            onClick={()=> handleDecodeEl(!isDecode)}
+            onClick={()=> {handleDecodeEl(!isDecode)
+            setPage(isDecode ? ' Encoder' : ' Decoder')
+            }}
             >
                 Move to 
                 {isDecode ? ' Encoder' : ' Decoder'}
