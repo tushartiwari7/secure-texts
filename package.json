@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "chart.js": "^3.4.1",
     "crypto-js": "^4.0.0",
     "next": "^11.0.1",
     "react": "^17.0.2",
@@ -46,7 +47,12 @@
   "description": "This project was build for 6th semester college submission in which we implemented many Cryptographic Algorithms.",
   "main": "index.js",
   "devDependencies": {},
-  "keywords": ["cryptography","security","react","website"],
+  "keywords": [
+    "cryptography",
+    "security",
+    "react",
+    "website"
+  ],
   "author": "Tushar Tiwari",
   "license": "MIT"
 }

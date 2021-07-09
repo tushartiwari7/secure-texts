@@ -1,27 +1,56 @@
 import React,{useState} from 'react';
-import {makeStyles,Button,Paper,Dialog,DialogTitle,IconButton,DialogContent,Typography,DialogActions,TextField,Snackbar} from '@material-ui/core';
+import {makeStyles,
+        Button,
+        Paper,
+        Dialog,
+        DialogTitle,
+        IconButton,
+        DialogContent,
+        Typography,
+        DialogActions,
+        TextField,
+        Snackbar,
+        Chip,
+        Accordion,
+        AccordionSummary,
+        AccordionDetails 
+    } from '@material-ui/core';
+
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CryptoJS from 'crypto-js';
 import FilterNone from '@material-ui/icons/FilterNone';
 import MuiAlert from '@material-ui/lab/Alert';
 
-  const useStyles = makeStyles({
+
+  const useStyles = makeStyles((theme)=>({
     root: {
       width: "100%",
-      margin: "auto"
+      margin: "auto",
+      display: 'flex',
+      justifyContent: 'center',
+      flexWrap: 'wrap',
+      '& > *': {
+        margin: theme.spacing(0.5),
+      },
     },
     keyContainer: {
       marginTop: "1rem",
       width: "60%"
     },
-    tabPanel: {
-      paddingBottom: "-1rem"
-    },
     copyButton: {
       position: 'absolute',
       right: "0.5rem",
       top: "0.5rem",
-    }
-  });
+    },
+    chip: {
+      marginLeft: '1rem',
+    },
+    heading: {
+      fontSize: theme.typography.pxToRem(15),
+      fontWeight: theme.typography.fontWeightRegular,
+    },
+  }));
 
 
 
@@ -35,6 +64,21 @@ function getDES(text,key,isDecode) {
   function getProcessedData({text,key,isDecode}) {
     return getDES(text,key || "secret Passcode",isDecode); 
 }
+
+const getRandomType = () => {
+  
+  const cipherTypes = [
+    "vigenere cipher",
+    "Substitution Cipher",
+    "AES Encryption",
+    "RC4 Encryption",
+    "DES Encryption",
+    "3DES Encryption"
+  ];
+
+  const randomInt = Math.floor(Math.random()*5);
+  return cipherTypes[randomInt];
+};
 
 export default function CryptoTabs({rawText,isDecode}) {
   const classes = useStyles();
@@ -76,7 +120,7 @@ export default function CryptoTabs({rawText,isDecode}) {
           defaultValue=""
           className={classes.keyContainer}
           onChange={handleKey}
-          variant="outlined" 
+          variant="outlined"
         /> 
         <Button variant="contained"
           color={isDecode ? "secondary" : "primary"}
@@ -90,7 +134,10 @@ export default function CryptoTabs({rawText,isDecode}) {
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           <Typography variant="body1" >
           <strong>{isDecode ? "Decoded " : "Encoded "} Message..</strong>
+          {!isDecode? 
+          <Chip label={'Algorithm Used: ' + getRandomType()} color="primary" className={classes.chip}/> : null}
           </Typography>
+
           <IconButton aria-label=""
             className={classes.copyButton} 
             onClick={() =>  {
@@ -101,6 +148,22 @@ export default function CryptoTabs({rawText,isDecode}) {
           <FilterNone />
         </IconButton>
         </DialogTitle> 
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography className={classes.heading}>Compare Algorithms</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+              sit amet blandit leo lobortis eget.
+            </Typography>
+          </AccordionDetails>
+        </Accordion>
+       
         <DialogContent dividers>
           <Typography gutterBottom >
             {encodedMsg}
@@ -111,7 +174,7 @@ export default function CryptoTabs({rawText,isDecode}) {
             Try Again!
           </Button>
         </DialogActions>
-    </Dialog>
+    </Dialog> 
     <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={copied}

@@ -159,6 +159,7 @@ export default function Home({handleDecodeEl,setPage}) {
                 flex-basis: 45%;
                 padding: 1.5rem;
                 text-align: left;
+                min-height: 180px;
                 color: inherit;
                 text-decoration: none;
                 border: 1px solid #eaeaea;

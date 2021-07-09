@@ -31,7 +31,6 @@ const Encrypt = ({isDecode,handleDecodeEl,setPage}) => {
         </Container>
         </>
     );
-
 }
 
 export default Encrypt;
