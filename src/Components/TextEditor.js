@@ -14,7 +14,6 @@ const TextEditor = ({classes,textHandler}) => {
         clearTimeout(timehandler);
         };
     }, [value,textHandler]);
-
     return (
             <Input 
             className={classes.input}

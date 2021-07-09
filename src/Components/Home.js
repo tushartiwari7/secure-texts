@@ -62,7 +62,7 @@ export default function Home({handleDecodeEl,setPage}) {
                 </div>
             </main>
 
-            <style jsx>{`
+            <style jsx="true"  >{`
                 .container {
                 min-height: 91vh;
                 padding: 0 0.5rem;
@@ -189,7 +189,7 @@ export default function Home({handleDecodeEl,setPage}) {
                 }
       `}</style>
 
-      <style jsx global>{`
+      <style jsx="true" global>{`
                 html,
                 body {
                 padding: 0;

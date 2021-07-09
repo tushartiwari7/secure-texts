@@ -18,9 +18,15 @@ import {makeStyles,
 
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CryptoJS from 'crypto-js';
 import FilterNone from '@material-ui/icons/FilterNone';
 import MuiAlert from '@material-ui/lab/Alert';
+import {Bar} from 'react-chartjs-2';
+
+// algorithms
+import getCaesarCypher from './Algorithms/Caesar';
+import getVigenereCypher from './Algorithms/Vigenere';
+import getSubstitutionCipher from './Algorithms/Substitution';
+import { getAES,getDES,getRC4 } from './Algorithms/Encrypters';
 
 
   const useStyles = makeStyles((theme)=>({
@@ -53,32 +59,20 @@ import MuiAlert from '@material-ui/lab/Alert';
   }));
 
 
+  const getSubstitution = {};
+  getSubstitution.toQWERTY = getSubstitutionCipher;
 
-function getDES(text,key,isDecode) {
-    if(isDecode) {
-        return CryptoJS.DES.decrypt(text, key).toString(CryptoJS.enc.Utf8);
-    }
-    return CryptoJS.DES.encrypt(text, key).toString();
-}
+const cipherTypes = [
+  "Caesar Cipher",
+  "Substitution Cipher",
+  "Vigenere cipher",
+  "AES Encryption",
+  "RC4 Encryption",
+  "DES Encryption"
+];
 
-  function getProcessedData({text,key,isDecode}) {
-    return getDES(text,key || "secret Passcode",isDecode); 
-}
 
-const getRandomType = () => {
-  
-  const cipherTypes = [
-    "vigenere cipher",
-    "Substitution Cipher",
-    "AES Encryption",
-    "RC4 Encryption",
-    "DES Encryption",
-    "3DES Encryption"
-  ];
 
-  const randomInt = Math.floor(Math.random()*5);
-  return cipherTypes[randomInt];
-};
 
 export default function CryptoTabs({rawText,isDecode}) {
   const classes = useStyles();
@@ -87,14 +81,69 @@ export default function CryptoTabs({rawText,isDecode}) {
   const [open, setOpen] = useState(false);
   const [key, setkey] = useState("");
   const [copied, setcopied] = useState(false);
+  const [cipherUsed, setcipherUsed] = useState(null);
+  
+function use_compared_encryption({text,key,isDecode}) {
+  const x = text.length;
 
+  if(x) {
+    if(x<=4) {
+      setcipherUsed('Caesar Cipher');
+      return getCaesarCypher(text,key ? Number(key) : 3,isDecode);
+    }
+    else if (x<=6) {
+      setcipherUsed('Substitution Cipher');
+      return getSubstitution.toQWERTY(text,isDecode);
+    }
+    else if (x<=10) {
+      setcipherUsed('Vigenere Cipher');
+      return getVigenereCypher(text,key || "abc",isDecode); 
+    }
+    else if (x<=20) {
+      setcipherUsed('AES Encryption');
+      return getAES(text,key || "secret Passcode",isDecode); 
+    }
+    else if (x<=30) {
+      setcipherUsed('RC4 Encryption');
+      return getRC4(text,key || "secret Passcode",isDecode); 
+    }
+    else if(x>30) {
+      setcipherUsed('DES Encryption');
+      return getDES(text,key || "secret Passcode",isDecode); 
+    }
+    else {
+      alert(`Sorry, some error occured Please Try Again!.`);
+    }
+  }
+}
+
+const howMuchOptimized = () => {  
+  const data = [33,53,60,41,44,65];
+  const index = cipherTypes.findIndex((el)=> el === cipherUsed);
+  data[index] = 85;
+  return data;
+};
+
+const dataForChart = {
+  labels: cipherTypes,
+  datasets: [
+    {
+      label: "security",
+      data: howMuchOptimized(),
+      fill: true,
+      backgroundColor: "#3f51b5",
+      borderColor: "#ffffff"
+    }
+  ]
+};
+  
   const getJSresult = () => {
     if(rawText && key ) {
-        setencodedMsg(getProcessedData({text: rawText,key: key,isDecode: isDecode}));
+        setencodedMsg(use_compared_encryption({text: rawText,key: key,isDecode: isDecode}));
         setOpen(true);
     }
     else {
-        alert("Please fill all details first.")
+        alert("Please fill all details first.");
         return null;
     }    
   };
@@ -124,7 +173,9 @@ export default function CryptoTabs({rawText,isDecode}) {
         /> 
         <Button variant="contained"
           color={isDecode ? "secondary" : "primary"}
-          onClick={getJSresult}
+          onClick={
+            getJSresult
+          }
           style={{margin: "1rem",width: "30%"}} >
           {isDecode ? "Decode" : "Encode"}
         </Button>
@@ -135,7 +186,7 @@ export default function CryptoTabs({rawText,isDecode}) {
           <Typography variant="body1" >
           <strong>{isDecode ? "Decoded " : "Encoded "} Message..</strong>
           {!isDecode? 
-          <Chip label={'Algorithm Used: ' + getRandomType()} color="primary" className={classes.chip}/> : null}
+          <Chip label={'Algorithm Used: ' + cipherUsed} color="primary" className={classes.chip}/> : null}
           </Typography>
 
           <IconButton aria-label=""
@@ -157,10 +208,7 @@ export default function CryptoTabs({rawText,isDecode}) {
             <Typography className={classes.heading}>Compare Algorithms</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-              sit amet blandit leo lobortis eget.
-            </Typography>
+            <Bar data={dataForChart} />
           </AccordionDetails>
         </Accordion>
        
