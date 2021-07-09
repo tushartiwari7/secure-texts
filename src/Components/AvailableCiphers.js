@@ -21,7 +21,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CryptoJS from 'crypto-js';
 import FilterNone from '@material-ui/icons/FilterNone';
 import MuiAlert from '@material-ui/lab/Alert';
-import Chart from 'chart.js/auto';
+
 
   const useStyles = makeStyles((theme)=>({
     root: {
@@ -68,7 +68,8 @@ function getDES(text,key,isDecode) {
 const getRandomType = () => {
   
   const cipherTypes = [
-    "Hybrid Encryption",
+    "vigenere cipher",
+    "Substitution Cipher",
     "AES Encryption",
     "RC4 Encryption",
     "DES Encryption",
