@@ -25,7 +25,7 @@ export default function Home({handleDecodeEl,setPage}) {
             </Head>
             <main>
                 <h1 className="title">
-                    Welcome to <a href="https://github.com/tushartiwari7/secure-texts">Secure Texts!</a>
+                    Welcome to <a href="https://secure-texts.vercel.app">Secure Texts!</a>
                 </h1>
                 <p className="description">
                     Get started by converting your text to cipher text using <code> Cryptographic Algorithms</code>
@@ -138,7 +138,6 @@ export default function Home({handleDecodeEl,setPage}) {
                 .description,{
                 text-align: center;
                 }
-
                 .description {
                 line-height: 1.5;
                 font-size: 1.5rem;
@@ -167,7 +166,6 @@ export default function Home({handleDecodeEl,setPage}) {
                 margin-top: 3rem;
                 transform: translateX(-14vw);
                 }
-
                 .card {
                 margin: 1rem;
                 flex-basis: 45%;
