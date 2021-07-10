@@ -99,18 +99,21 @@ function use_compared_encryption({text,key,isDecode}) {
       setcipherUsed('Vigenere Cipher');
       return getVigenereCypher(text,key || "abc",isDecode); 
     }
+
     else if (x<=20) {
-      setcipherUsed('AES Encryption');
-      return getAES(text,key || "secret Passcode",isDecode); 
-    }
-    else if (x<=30) {
       setcipherUsed('RC4 Encryption');
       return getRC4(text,key || "secret Passcode",isDecode); 
     }
-    else if(x>30) {
+    else if(x<= 30) {
       setcipherUsed('DES Encryption');
       return getDES(text,key || "secret Passcode",isDecode); 
     }
+
+    else if (x>30) {
+      setcipherUsed('AES Encryption');
+    return getAES(text,key || "secret Passcode",isDecode); 
+    }
+
     else {
       alert(`Sorry, some error occured Please Try Again!.`);
     }
