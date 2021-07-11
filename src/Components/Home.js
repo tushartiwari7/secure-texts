@@ -1,22 +1,13 @@
 import React,{ useEffect } from 'react';
 import Head from 'next/head';
 import {useHistory} from "react-router-dom";
-import tawkTo from "tawkto-react";
-
-const tawkToPropertyId = '60e93093649e0a0a5ccb79da'
-
-// Direct Chat Link
-// https://tawk.to/chat/tawkToPropertyId/tawkToKey
-
-const tawkToKey = '814a033a27b84ad9ccad79526ba425dbe7b02cdc'
+import tawkTo from '../utils/tawkto';
 
 
 export default function Home({handleDecodeEl,setPage}) {
     const history = useHistory();
     
-    useEffect(() => {
-        tawkTo(tawkToPropertyId, tawkToKey)
-    }, []);
+    useEffect(()=>tawkTo(), []);
     
     return (
         <div className="container">
