@@ -66,9 +66,9 @@ const cipherTypes = [
   "Caesar Cipher",
   "Substitution Cipher",
   "Vigenere cipher",
-  "AES Encryption",
   "RC4 Encryption",
-  "DES Encryption"
+  "DES Encryption",
+  "AES Encryption"
 ];
 
 
@@ -98,16 +98,16 @@ function use_compared_encryption({text,key,isDecode}) {
       return getVigenereCypher(text,key || "abc",isDecode); 
     }
     else if (x<=20) {
-      setcipherUsed('AES Encryption');
-      return getAES(text,key || "secret Passcode",isDecode); 
-    }
-    else if (x<=30) {
       setcipherUsed('RC4 Encryption');
       return getRC4(text,key || "secret Passcode",isDecode); 
     }
-    else if(x>30) {
+    else if(x<= 30) {
       setcipherUsed('DES Encryption');
       return getDES(text,key || "secret Passcode",isDecode); 
+    }
+    else if (x>30) {
+      setcipherUsed('AES Encryption');
+    return getAES(text,key || "secret Passcode",isDecode); 
     }
     else {
       alert(`Sorry, some error occured Please Try Again!.`);
@@ -117,12 +117,14 @@ function use_compared_encryption({text,key,isDecode}) {
 
 const howMuchOptimized = (complexity) => {  
   
-  const data = [33,53,60,41,44,65];
+  const data = [33,43,50,41,50,65];
   const index = cipherTypes.findIndex((el)=> el === cipherUsed);
+  console.log(index);
   
   if(complexity) {
-   const complexityValues = data.map((el)=> el + (Math.floor(Math.random() * 20))) 
-   complexityValues[index] = complexityValues[index] -  Math.floor(Math.random() * 20);
+  //  const complexityValues = data.map((el)=> el + (Math.floor(Math.random() * 20))) 
+   const complexityValues = [30, 40, 45, 35, 40, 60];
+   complexityValues[index] = 75;
    return complexityValues;
   }
   else {
