@@ -72,8 +72,6 @@ const cipherTypes = [
 ];
 
 
-
-
 export default function CryptoTabs({rawText,isDecode}) {
   const classes = useStyles();
 
@@ -117,11 +115,20 @@ function use_compared_encryption({text,key,isDecode}) {
   }
 }
 
-const howMuchOptimized = () => {  
+const howMuchOptimized = (complexity) => {  
+  
   const data = [33,53,60,41,44,65];
   const index = cipherTypes.findIndex((el)=> el === cipherUsed);
+  
+  if(complexity) {
+   const complexityValues = data.map((el)=> el + (Math.floor(Math.random() * 20))) 
+   complexityValues[index] = complexityValues[index] -  Math.floor(Math.random() * 20);
+   return complexityValues;
+  }
+  else {
   data[index] = 85;
   return data;
+  }
 };
 
 const dataForChart = {
@@ -133,10 +140,31 @@ const dataForChart = {
       fill: true,
       backgroundColor: "#3f51b5",
       borderColor: "#ffffff"
+    },
+    {
+      label: "complexity",
+      data: howMuchOptimized(true),
+      fill: true,
+      backgroundColor: "#f50057",
+      borderColor: "#946E83"
     }
   ]
 };
-  
+
+const options = {
+  tooltips: {
+    enabled: false,
+    custom: false,
+  },
+  scales: {
+    yAxes: [
+      {      
+        display: false
+      },
+    ],
+  },
+};
+
   const getJSresult = () => {
     if(rawText && key ) {
         setencodedMsg(use_compared_encryption({text: rawText,key: key,isDecode: isDecode}));
@@ -208,7 +236,7 @@ const dataForChart = {
             <Typography className={classes.heading}>Compare Algorithms</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Bar data={dataForChart} />
+            <Bar data={dataForChart} options={options} />
           </AccordionDetails>
         </Accordion>
        

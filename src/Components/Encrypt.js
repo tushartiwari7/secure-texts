@@ -1,7 +1,7 @@
 import { Box,Button,Container, Divider } from '@material-ui/core';
 import React,{ useState } from "react";
-import TextEditor from './Components/TextEditor';
-import AvailableCiphers from './Components/AvailableCiphers';
+import TextEditor from './TextEditor';
+import Comparison from './Comparison';
 
 const Encrypt = ({isDecode,handleDecodeEl,setPage}) => {
     
@@ -17,7 +17,7 @@ const Encrypt = ({isDecode,handleDecodeEl,setPage}) => {
         <TextEditor textHandler={textHandler}/>
         </Box>
         <Container maxWidth="md">
-            <AvailableCiphers rawText={rawText} isDecode={isDecode} />
+            <Comparison rawText={rawText} isDecode={isDecode} />
             <Divider />
             <Button fullWidth style={{marginTop: '4em',height: '4rem'}} variant="contained"
             color={isDecode ? "secondary" : "primary"} 
