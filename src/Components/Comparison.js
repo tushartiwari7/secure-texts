@@ -119,8 +119,7 @@ const howMuchOptimized = (complexity) => {
   
   const data = [33,43,50,41,50,65];
   const index = cipherTypes.findIndex((el)=> el === cipherUsed);
-  console.log(index);
-  
+
   if(complexity) {
   //  const complexityValues = data.map((el)=> el + (Math.floor(Math.random() * 20))) 
    const complexityValues = [30, 40, 45, 35, 40, 60];
@@ -160,8 +159,18 @@ const options = {
   },
   scales: {
     yAxes: [
-      {      
-        display: false
+      {   
+        ticks: {
+          fontColor: 'white',
+        },
+        display: false,
+      },
+    ],
+    xAxes: [
+      {
+        gridlines: {
+          display: 'none',
+        },
       },
     ],
   },
@@ -229,6 +238,7 @@ const options = {
           <FilterNone />
         </IconButton>
         </DialogTitle> 
+        {!isDecode ? 
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -241,6 +251,7 @@ const options = {
             <Bar data={dataForChart} options={options} />
           </AccordionDetails>
         </Accordion>
+        : null}
        
         <DialogContent dividers>
           <Typography gutterBottom >
