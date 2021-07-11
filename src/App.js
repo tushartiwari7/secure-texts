@@ -16,7 +16,7 @@ function App() {
   const [isDecode, setIsDecode] = useState(false);
   const [page,setPage] = useState('Home');
   useEffect(()=>tawkTo(), []);
-  
+
   const palletType = dark ? "dark" : "light";
   const darkTheme = createMuiTheme({
     palette: {
@@ -57,7 +57,7 @@ function App() {
 
           <footer>
             <a
-              href="happynewyear.com"
+              href="/"
               target="_blank"
               rel="noopener noreferrer"
             >
